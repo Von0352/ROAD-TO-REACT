@@ -262,27 +262,113 @@
 
 //props.children
 //我们知道使用组件的时候，可以嵌套，要在自定义组件的使用嵌套结构，就需要使用props.children.在实际的工作当中，我们几乎每天都需要用这种方式来编写组件
-import React, { Component, Fragment } from 'react'
+// import React, { Component, Fragment } from 'react'
+// import ReactDOM from 'react-dom'
+// class Title extends Component { 
+//     render() { 
+//         return (
+//             <h1>欢迎进入{this.props.children}的世界</h1>
+//         )
+//     }
+// }
+// const Content = (props) => { 
+//     return (
+//         <p>{props.children}</p>
+//     )
+// }
+// class App extends Component { 
+//     render() { 
+//         return (
+//             <Fragment>
+//                 <Title>React</Title>
+//                 <Content><i>React.js</i>是一个构建UI的库</Content>
+//             </Fragment>
+//         )
+//     }
+// }
+// ReactDOM.render(
+//     <App />,
+//     document.getElementById('root')
+// )
+
+
+//2.状态（state）
+//状态就是组件描述某种显示情况的数据，由组件自己设置和更改，也就是说由组件自己维护，使用状态的目的就是为了在不同的状态下使组件的显示不同（自己管理）
+//1.定义state
+//第一种方式
+// import React, { Component } from 'react'
+// import ReactDOM from 'react-dom'
+// class App extends Component { 
+//     state = {
+//         name: 'React',
+//         isLiked:true
+//     }
+//     render() { 
+//         return (
+//             <div>
+//                 <h1>欢迎来到{this.state.name}的世界</h1>
+//                 <button>{this.state.isLiked ? '❤️收藏' : '🖤取消'}</button>
+//                 <button>{this.state.isLiked ? '🖤取消' : '❤️收藏' }</button>
+//             </div>
+//         )
+//     }
+// }
+// ReactDOM.render(
+//     <App />,
+//     document.getElementById('root')
+// )
+
+//另一种方式（推荐）
+// import React, { Component } from 'react'
+// import ReactDOM, { render } from 'react-dom'
+// class App extends Component {
+//     constructor() {
+//         super()
+//         this.state = {
+//             name: 'React',
+//             isLiked: false
+//         }
+//     }
+//     render() {
+//         return (
+//             <div>
+//                 <h1>欢迎来到{this.state.name}的世界</h1>
+//                 <button>{this.state.isLiked ? '❤️收藏' : '🖤取消'}</button>
+//             </div>
+//         )
+//     }
+// }
+
+// ReactDOM.render(
+//     <App />,
+//     document.getElementById('root')
+// )
+
+//this.props和this.state是纯JS对象，在VUE中，data属性是利用Object.defineProperty处理过的，更改data的数据的是时候会触发数据的getter和setter，但是React中没有做这样的处理，如果直接更改的话，React是无法得知的，所以需要使用特殊的更改状态的方法setState
+
+//（2）setState
+//isLiked存放在实例的state对象当中，组件的render函数内，会根据组件的state的中的isLiked不同显示“取消”或“收藏”内容。下面给button加上了点击事件监听
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-class Title extends Component { 
-    render() { 
-        return (
-            <h1>欢迎进入{this.props.children}的世界</h1>
-        )
-    }
-}
-const Content = (props) => { 
-    return (
-        <p>{props.children}</p>
-    )
-}
 class App extends Component { 
+    constructor() { 
+        super()
+        this.state = {
+            name: 'React',
+            isLiked:false
+        }
+    }
+    handleBtnClick = () => { 
+        this.setState({
+            isLiked:!this.state.isLiked
+        })
+    }
     render() { 
         return (
-            <Fragment>
-                <Title>React</Title>
-                <Content><i>React.js</i>是一个构建UI的库</Content>
-            </Fragment>
+            <div>
+                <h1>欢迎来到{this.state.name}</h1>
+                <button onClick={this.handleBtnClick }>{this.state.isLiked ? '❤️收藏' : '🖤取消'}</button>
+            </div>
         )
     }
 }
@@ -290,3 +376,6 @@ ReactDOM.render(
     <App />,
     document.getElementById('root')
 )
+//setState有两个参数
+//第一个参数可以是对象，也可以是方法return一个对象，我们把这个参数叫做updater
+//参数是对象
